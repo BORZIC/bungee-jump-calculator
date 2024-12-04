@@ -1,3 +1,65 @@
+<!-- Link to the CSS file -->
+<link rel="stylesheet" href="style.css">
+
+<!-- Link to the JS file -->
+<script src="script.js"></script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bungee Jump Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bungee Jump Calculator</h1>
+
+        <div id="userInputs">
+            <label for="mass">Mass (kg):</label>
+            <input type="number" id="mass" name="mass" required>
+
+            <label for="height">Height (m):</label>
+            <input type="number" id="height" name="height" required>
+
+            <button onclick="calculateJump()">Calculate</button>
+        </div>
+
+        <div id="results">
+            <h2>Results</h2>
+            <p id="stringLength"></p>
+            <p id="stretchedCord"></p>
+            <p id="endingHeight"></p>
+        </div>
+
+        <h3>Admin Panel (Input Bungee Cord Parameters)</h3>
+        <div id="adminPanel">
+            <label for="startingHeight">Starting Height (m):</label>
+            <input type="number" id="startingHeight" name="startingHeight" required>
+
+            <label for="unstretchedCord">Unstretched Bungee Cord (m):</label>
+            <input type="number" id="unstretchedCord" name="unstretchedCord" required>
+
+            <label for="cordStrength">Cord Strength (N):</label>
+            <input type="number" id="cordStrength" name="cordStrength" required>
+
+            <label for="bufferZone">Buffer Zone (m):</label>
+            <input type="number" id="bufferZone" name="bufferZone" required>
+
+            <label for="noGoZone">No Go Zone (m):</label>
+            <input type="number" id="noGoZone" name="noGoZone" required>
+
+            <button onclick="updateAdminParameters()">Update Parameters</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
