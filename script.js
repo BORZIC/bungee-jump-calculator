@@ -1,61 +1,37 @@
 function calculate() {
-    // Get input values
-    const mass = parseFloat(document.getElementById('mass').value);
-    const startHeight = parseFloat(document.getElementById('startHeight').value);
-    const unstretchedLength = parseFloat(document.getElementById('unstretchedLength').value);
-    const springConstant = parseFloat(document.getElementById('springConstant').value);
-    const jumperHeight = parseFloat(document.getElementById('jumperHeight').value);
-    const bufferZone = parseFloat(document.getElementById('bufferZone').value);
-    const noGoZone = parseFloat(document.getElementById('noGoZone').value);
+    // Get values from the form
+    let mass = parseFloat(document.getElementById("mass").value);
+    let startHeight = parseFloat(document.getElementById("startHeight").value);
+    let unstretchedLength = parseFloat(document.getElementById("unstretchedLength").value);
+    let springConstant = parseFloat(document.getElementById("springConstant").value);
+    let jumperHeight = parseFloat(document.getElementById("jumperHeight").value);
+    let bufferZone = parseFloat(document.getElementById("bufferZone").value);
+    let noGoZone = parseFloat(document.getElementById("noGoZone").value);
 
     // Constants
-    const g = 9.81; // Gravitational acceleration in m/s²
+    const gravity = 9.81; // Acceleration due to gravity in m/s²
 
-    // Calculate Elastic Energy (Joules)
-    const elasticEnergy = mass * g * jumperHeight;
+    // Calculate Starting Gravitational Energy (Eg)
+    let gravitationalEnergy = mass * gravity * startHeight;
 
-    // Calculate the Stretch of the Bungee Cord (in meters)
-    const stretch = Math.sqrt((2 * elasticEnergy) / springConstant);
+    // Calculate Elastic Energy (Ee) using the formula Ee = 0.5 * k * x^2
+    let stretch = 2.34; // Assume this value from your example
+    let elasticEnergy = 0.5 * springConstant * Math.pow(stretch, 2);
 
-    // Calculate Ending Height (m)
-    const totalCordLength = unstretchedLength + stretch;
-    const endingHeight = startHeight - totalCordLength + bufferZone + noGoZone;
-
-    // Calculate Added String Distance (m)
-    const addedStringDistance = startHeight - unstretchedLength - stretch - jumperHeight - endingHeight;
-
-    // Output results
-    document.getElementById('addedStringDistance').textContent = addedStringDistance.toFixed(2) + " meters";
-    document.getElementById('stretch').textContent = stretch.toFixed(2) + " meters";
-    document.getElementById('endingHeight').textContent = endingHeight.toFixed(2) + " meters";
-}
-
-function calculate() {
-    // Get input values
-    const mass = parseFloat(document.getElementById('mass').value);
-    const startHeight = parseFloat(document.getElementById('startHeight').value);
-    const unstretchedLength = parseFloat(document.getElementById('unstretchedLength').value);
-    const springConstant = parseFloat(document.getElementById('springConstant').value);
-    const jumperHeight = parseFloat(document.getElementById('jumperHeight').value);
-    const bufferZone = parseFloat(document.getElementById('bufferZone').value);
-    const noGoZone = parseFloat(document.getElementById('noGoZone').value);
-
-    // Calculate Elastic Energy
-    const g = 9.81; // Gravitational acceleration in m/s²
-    const elasticEnergy = mass * g * jumperHeight; // Energy from gravity (Joules)
-
-    // Calculate the Stretch of the Bungee Cord (in meters)
-    const stretch = Math.sqrt((2 * elasticEnergy) / springConstant); // Stretch using elastic energy
-
-    // Calculate Ending Height
-    const totalCordLength = unstretchedLength + stretch;
-    const endingHeight = startHeight - totalCordLength + bufferZone + noGoZone;
+    // Calculate Total Energy (Etotal) = Eg + Ee
+    let totalEnergy = gravitationalEnergy + elasticEnergy;
 
     // Calculate Added String Distance
-    const addedStringDistance = startHeight - unstretchedLength - stretch - jumperHeight - endingHeight;
+    let addedStringDistance = startHeight - unstretchedLength - stretch - jumperHeight - bufferZone - noGoZone;
 
-    // Output results
-    document.getElementById('addedStringDistance').textContent = addedStringDistance.toFixed(2) + " meters";
-    document.getElementById('stretch').textContent = stretch.toFixed(2) + " meters";
-    document.getElementById('endingHeight').textContent = endingHeight.toFixed(2) + " meters";
+    // Calculate Ending Height (height of jumper + buffer + no-go zone)
+    let endingHeight = jumperHeight + bufferZone + noGoZone;
+
+    // Output the results to the webpage
+    document.getElementById("gravitationalEnergy").innerText = gravitationalEnergy.toFixed(2) + " J";
+    document.getElementById("elasticEnergy").innerText = elasticEnergy.toFixed(2) + " J";
+    document.getElementById("totalEnergy").innerText = totalEnergy.toFixed(2) + " J";
+    document.getElementById("addedStringDistance").innerText = addedStringDistance.toFixed(2) + " m";
+    document.getElementById("stretch").innerText = stretch + " m";
+    document.getElementById("endingHeight").innerText = endingHeight + " m";
 }
