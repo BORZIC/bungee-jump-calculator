@@ -4,15 +4,30 @@ document.getElementById('settings-btn').addEventListener('click', function () {
 });
 
 document.getElementById('calculate-btn').addEventListener('click', function () {
+    // Retrieve inputs
     const mass = parseFloat(document.getElementById('mass').value);
-    const height = parseFloat(document.getElementById('height').value);
-    const g = parseFloat(document.getElementById('gravitational-constant').value);
-    const elasticity = parseFloat(document.getElementById('elasticity').value);
+    const jumperHeight = parseFloat(document.getElementById('jumper-height').value);
+    const startingHeight = parseFloat(document.getElementById('starting-height').value);
+    const bungeeLength = parseFloat(document.getElementById('bungee-length').value);
+    const bungeeStrength = parseFloat(document.getElementById('bungee-strength').value);
+    const buffer = parseFloat(document.getElementById('buffer').value);
+    const noGoZone = parseFloat(document.getElementById('no-go-zone').value);
 
-    // Calculations
-    const addedString = height * elasticity; // Placeholder formula
-    const cordStretched = height * 0.8; // Placeholder formula
-    const endingHeight = height - cordStretched; // Placeholder formula
+    const g = 9.81; // Gravitational constant
+    const totalEnergy = mass * g * startingHeight;
+
+    // Calculations (placeholders)
+    const addedString = Math.max(0, (startingHeight - bungeeLength - buffer));
+    const cordStretched = startingHeight - noGoZone - jumperHeight;
+    const endingHeight = noGoZone;
+
+    // Energy calculations for positions
+    const positions = [
+        { name: 'Initial', eg: totalEnergy, ek: 0, ee: 0 },
+        { name: '3/4 Height', eg: totalEnergy * 0.75, ek: totalEnergy * 0.25, ee: 0 },
+        { name: '1/4 Height', eg: totalEnergy * 0.25, ek: totalEnergy * 0.25, ee: totalEnergy * 0.5 },
+        { name: 'Final', eg: 0, ek: 0, ee: totalEnergy },
+    ];
 
     // Update results
     document.getElementById('string-needed').textContent = addedString.toFixed(2);
@@ -20,32 +35,37 @@ document.getElementById('calculate-btn').addEventListener('click', function () {
     document.getElementById('ending-height').textContent = endingHeight.toFixed(2);
 
     // Update chart
-    updateChart([mass * g * height, 0, elasticity * cordStretched, mass * g * height]);
-});
-
-let chart;
-
-function updateChart(data) {
     const ctx = document.getElementById('energy-chart').getContext('2d');
-    if (chart) chart.destroy();
-
-    chart = new Chart(ctx, {
+    const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Gravitational Energy', 'Kinetic Energy', 'Elastic Energy', 'Total Energy'],
-            datasets: [{
-                label: 'Energy (J)',
-                data: data,
-                backgroundColor: ['#007BFF', '#FFC107', '#28A745', '#17A2B8']
-            }]
+            labels: positions.map(pos => pos.name),
+            datasets: [
+                {
+                    label: 'Gravitational Energy',
+                    data: positions.map(pos => pos.eg),
+                    backgroundColor: '#007BFF'
+                },
+                {
+                    label: 'Kinetic Energy',
+                    data: positions.map(pos => pos.ek),
+                    backgroundColor: '#FFC107'
+                },
+                {
+                    label: 'Elastic Energy',
+                    data: positions.map(pos => pos.ee),
+                    backgroundColor: '#28A745'
+                }
+            ]
         },
         options: {
             responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            },
             plugins: {
-                legend: {
-                    display: false
-                }
+                legend: { position: 'top' }
             }
         }
     });
-}
+});
