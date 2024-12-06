@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bungee Jump Calculator</title>
+    <title>Bungee Jump Simulation</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -11,33 +11,52 @@
     <div class="container">
         <header>
             <h1>Bungee Jump Calculator</h1>
-            <button id="settings-btn">⚙️ Settings</button>
+            <button id="settings-btn">⚙️ Advanced Settings</button>
         </header>
+
+        <!-- Input Fields -->
         <div class="inputs">
             <label for="mass">Mass of Jumper (kg):</label>
-            <input type="number" id="mass" value="0.4" step="0.01">
+            <input type="number" id="mass" placeholder="Enter mass" value="60" step="0.1">
 
-            <label for="height">Starting Height (m):</label>
-            <input type="number" id="height" value="4.5" step="0.01">
+            <label for="height">Height of Jumper (m):</label>
+            <input type="number" id="jumper-height" placeholder="Enter height" value="1.8" step="0.1">
         </div>
+
+        <!-- Advanced Settings -->
         <div id="settings-menu" class="hidden">
             <h2>Advanced Settings</h2>
-            <label for="gravitational-constant">Gravitational Constant (m/s²):</label>
-            <input type="number" id="gravitational-constant" value="9.81" step="0.01">
+            <label for="starting-height">Starting Height (m):</label>
+            <input type="number" id="starting-height" placeholder="Enter starting height" value="100" step="0.1">
 
-            <label for="elasticity">Elasticity Factor:</label>
-            <input type="number" id="elasticity" value="1.5" step="0.01">
+            <label for="bungee-length">Unstretched Bungee Cord Length (m):</label>
+            <input type="number" id="bungee-length" placeholder="Enter cord length" value="50" step="0.1">
+
+            <label for="bungee-strength">Strength of Bungee Cord:</label>
+            <input type="number" id="bungee-strength" placeholder="Enter strength factor" value="1.5" step="0.1">
+
+            <label for="buffer">Buffer Zone (m):</label>
+            <input type="number" id="buffer" placeholder="Enter buffer zone" value="2" step="0.1">
+
+            <label for="no-go-zone">No-Go Zone (m):</label>
+            <input type="number" id="no-go-zone" placeholder="Enter no-go zone" value="5" step="0.1">
         </div>
+
+        <!-- Calculate Button -->
         <button id="calculate-btn">Calculate</button>
 
+        <!-- Results -->
         <div class="results">
             <h2>Results</h2>
             <p>Added String Needed: <span id="string-needed">-</span> m</p>
             <p>Distance Cord Stretched: <span id="cord-stretched">-</span> m</p>
             <p>Ending Height: <span id="ending-height">-</span> m</p>
         </div>
+
+        <!-- Bar Chart -->
         <canvas id="energy-chart"></canvas>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
