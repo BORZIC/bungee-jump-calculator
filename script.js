@@ -1,37 +1,51 @@
-function calculate() {
-    // Get values from the form
-    let mass = parseFloat(document.getElementById("mass").value);
-    let startHeight = parseFloat(document.getElementById("startHeight").value);
-    let unstretchedLength = parseFloat(document.getElementById("unstretchedLength").value);
-    let springConstant = parseFloat(document.getElementById("springConstant").value);
-    let jumperHeight = parseFloat(document.getElementById("jumperHeight").value);
-    let bufferZone = parseFloat(document.getElementById("bufferZone").value);
-    let noGoZone = parseFloat(document.getElementById("noGoZone").value);
+document.getElementById('settings-btn').addEventListener('click', function () {
+    const menu = document.getElementById('settings-menu');
+    menu.classList.toggle('hidden');
+});
 
-    // Constants
-    const gravity = 9.81; // Acceleration due to gravity in m/s²
+document.getElementById('calculate-btn').addEventListener('click', function () {
+    const mass = parseFloat(document.getElementById('mass').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const g = parseFloat(document.getElementById('gravitational-constant').value);
+    const elasticity = parseFloat(document.getElementById('elasticity').value);
 
-    // Calculate Starting Gravitational Energy (Eg)
-    let gravitationalEnergy = mass * gravity * startHeight;
+    // Calculations
+    const addedString = height * elasticity; // Placeholder formula
+    const cordStretched = height * 0.8; // Placeholder formula
+    const endingHeight = height - cordStretched; // Placeholder formula
 
-    // Calculate Elastic Energy (Ee) using the formula Ee = 0.5 * k * x^2
-    let stretch = 2.34; // Assume this value from your example
-    let elasticEnergy = 0.5 * springConstant * Math.pow(stretch, 2);
+    // Update results
+    document.getElementById('string-needed').textContent = addedString.toFixed(2);
+    document.getElementById('cord-stretched').textContent = cordStretched.toFixed(2);
+    document.getElementById('ending-height').textContent = endingHeight.toFixed(2);
 
-    // Calculate Total Energy (Etotal) = Eg + Ee
-    let totalEnergy = gravitationalEnergy + elasticEnergy;
+    // Update chart
+    updateChart([mass * g * height, 0, elasticity * cordStretched, mass * g * height]);
+});
 
-    // Calculate Added String Distance
-    let addedStringDistance = startHeight - unstretchedLength - stretch - jumperHeight - bufferZone - noGoZone;
+let chart;
 
-    // Calculate Ending Height (height of jumper + buffer + no-go zone)
-    let endingHeight = jumperHeight + bufferZone + noGoZone;
+function updateChart(data) {
+    const ctx = document.getElementById('energy-chart').getContext('2d');
+    if (chart) chart.destroy();
 
-    // Output the results to the webpage
-    document.getElementById("gravitationalEnergy").innerText = gravitationalEnergy.toFixed(2) + " J";
-    document.getElementById("elasticEnergy").innerText = elasticEnergy.toFixed(2) + " J";
-    document.getElementById("totalEnergy").innerText = totalEnergy.toFixed(2) + " J";
-    document.getElementById("addedStringDistance").innerText = addedStringDistance.toFixed(2) + " m";
-    document.getElementById("stretch").innerText = stretch + " m";
-    document.getElementById("endingHeight").innerText = endingHeight + " m";
+    chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Gravitational Energy', 'Kinetic Energy', 'Elastic Energy', 'Total Energy'],
+            datasets: [{
+                label: 'Energy (J)',
+                data: data,
+                backgroundColor: ['#007BFF', '#FFC107', '#28A745', '#17A2B8']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
 }
