@@ -1,72 +1,43 @@
-<!-- Link to the CSS file -->
-<link rel="stylesheet" href="style.css">
-
-<!-- Link to the JS file -->
-<script src="script.js"></script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bungee Jump Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        output {
-            font-weight: bold;
-        }
-        label {
-            margin-top: 10px;
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Bungee Jump Calculator</h1>
-    <form id="bungee-form">
-        <!-- User Inputs -->
-        <label for="mass">Mass of Jumper (kg):</label>
-        <input type="number" id="mass" required>
-        
-        <label for="startHeight">Starting Height (m):</label>
-        <input type="number" id="startHeight" required>
+    <div class="container">
+        <header>
+            <h1>Bungee Jump Calculator</h1>
+            <button id="settings-btn">⚙️ Settings</button>
+        </header>
+        <div class="inputs">
+            <label for="mass">Mass of Jumper (kg):</label>
+            <input type="number" id="mass" value="0.4" step="0.01">
 
-        <label for="unstretchedLength">Unstretched Bungee Cord Length (m):</label>
-        <input type="number" id="unstretchedLength" required>
+            <label for="height">Starting Height (m):</label>
+            <input type="number" id="height" value="4.5" step="0.01">
+        </div>
+        <div id="settings-menu" class="hidden">
+            <h2>Advanced Settings</h2>
+            <label for="gravitational-constant">Gravitational Constant (m/s²):</label>
+            <input type="number" id="gravitational-constant" value="9.81" step="0.01">
 
-        <label for="springConstant">Spring Constant of Cord (N/m):</label>
-        <input type="number" id="springConstant" required>
+            <label for="elasticity">Elasticity Factor:</label>
+            <input type="number" id="elasticity" value="1.5" step="0.01">
+        </div>
+        <button id="calculate-btn">Calculate</button>
 
-        <label for="jumperHeight">Height of Jumper (m):</label>
-        <input type="number" id="jumperHeight" required>
-
-        <label for="bufferZone">Buffer Zone (m):</label>
-        <input type="number" id="bufferZone" required>
-
-        <label for="noGoZone">No-Go Zone (m):</label>
-        <input type="number" id="noGoZone" required>
-
-        <button type="button" onclick="calculate()">Calculate</button>
-    </form>
-
-    <h2>Results</h2>
-    <p><strong>Starting Gravitational Energy (Eg):</strong> <output id="gravitationalEnergy"></output></p>
-    <p><strong>Elastic Energy (Ee):</strong> <output id="elasticEnergy"></output></p>
-    <p><strong>Total Energy (Etotal):</strong> <output id="totalEnergy"></output></p>
-    <p><strong>Added String Distance:</strong> <output id="addedStringDistance"></output></p>
-    <p><strong>Distance the Bungee Cord Stretches:</strong> <output id="stretch"></output></p>
-    <p><strong>Ending Height:</strong> <output id="endingHeight"></output></p>
-
-    <script src="bungee.js"></script>
+        <div class="results">
+            <h2>Results</h2>
+            <p>Added String Needed: <span id="string-needed">-</span> m</p>
+            <p>Distance Cord Stretched: <span id="cord-stretched">-</span> m</p>
+            <p>Ending Height: <span id="ending-height">-</span> m</p>
+        </div>
+        <canvas id="energy-chart"></canvas>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
