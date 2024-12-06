@@ -16,12 +16,11 @@ document.getElementById('calculate-btn').addEventListener('click', function () {
     const g = 9.81; // Gravitational constant
     const totalEnergy = mass * g * startingHeight;
 
-    // Calculations (placeholders)
-    const addedString = Math.max(0, (startingHeight - bungeeLength - buffer));
+    // Calculations
+    const addedString = Math.max(0, startingHeight - bungeeLength - buffer);
     const cordStretched = startingHeight - noGoZone - jumperHeight;
     const endingHeight = noGoZone;
 
-    // Energy calculations for positions
     const positions = [
         { name: 'Initial', eg: totalEnergy, ek: 0, ee: 0 },
         { name: '3/4 Height', eg: totalEnergy * 0.75, ek: totalEnergy * 0.25, ee: 0 },
@@ -36,36 +35,20 @@ document.getElementById('calculate-btn').addEventListener('click', function () {
 
     // Update chart
     const ctx = document.getElementById('energy-chart').getContext('2d');
-    const chart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'bar',
         data: {
             labels: positions.map(pos => pos.name),
             datasets: [
-                {
-                    label: 'Gravitational Energy',
-                    data: positions.map(pos => pos.eg),
-                    backgroundColor: '#007BFF'
-                },
-                {
-                    label: 'Kinetic Energy',
-                    data: positions.map(pos => pos.ek),
-                    backgroundColor: '#FFC107'
-                },
-                {
-                    label: 'Elastic Energy',
-                    data: positions.map(pos => pos.ee),
-                    backgroundColor: '#28A745'
-                }
-            ]
+                { label: 'Gravitational Energy', data: positions.map(pos => pos.eg), backgroundColor: '#007BFF' },
+                { label: 'Kinetic Energy', data: positions.map(pos => pos.ek), backgroundColor: '#FFC107' },
+                { label: 'Elastic Energy', data: positions.map(pos => pos.ee), backgroundColor: '#28A745' },
+            ],
         },
         options: {
             responsive: true,
-            scales: {
-                y: { beginAtZero: true }
-            },
-            plugins: {
-                legend: { position: 'top' }
-            }
-        }
+            scales: { y: { beginAtZero: true } },
+            plugins: { legend: { position: 'top' } },
+        },
     });
 });
