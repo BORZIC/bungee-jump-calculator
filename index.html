@@ -14,12 +14,13 @@
             <button id="settings-btn">⚙️ Advanced Settings</button>
         </header>
 
-        <!-- Input Fields -->
+        <!-- Input Section -->
         <div class="inputs">
+            <h2>Basic Inputs</h2>
             <label for="mass">Mass of Jumper (kg):</label>
             <input type="number" id="mass" placeholder="Enter mass" value="60" step="0.1">
 
-            <label for="height">Height of Jumper (m):</label>
+            <label for="jumper-height">Height of Jumper (m):</label>
             <input type="number" id="jumper-height" placeholder="Enter height" value="1.8" step="0.1">
         </div>
 
@@ -32,8 +33,8 @@
             <label for="bungee-length">Unstretched Bungee Cord Length (m):</label>
             <input type="number" id="bungee-length" placeholder="Enter cord length" value="50" step="0.1">
 
-            <label for="bungee-strength">Strength of Bungee Cord:</label>
-            <input type="number" id="bungee-strength" placeholder="Enter strength factor" value="1.5" step="0.1">
+            <label for="bungee-strength">Bungee Cord Strength (k):</label>
+            <input type="number" id="bungee-strength" placeholder="Enter strength factor" value="100" step="1">
 
             <label for="buffer">Buffer Zone (m):</label>
             <input type="number" id="buffer" placeholder="Enter buffer zone" value="2" step="0.1">
@@ -45,7 +46,7 @@
         <!-- Calculate Button -->
         <button id="calculate-btn">Calculate</button>
 
-        <!-- Results -->
+        <!-- Results Section -->
         <div class="results">
             <h2>Results</h2>
             <p>Added String Needed: <span id="string-needed">-</span> m</p>
@@ -53,7 +54,7 @@
             <p>Ending Height: <span id="ending-height">-</span> m</p>
         </div>
 
-        <!-- Bar Chart -->
+        <!-- Energy Chart -->
         <canvas id="energy-chart"></canvas>
     </div>
 
