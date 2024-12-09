@@ -18,14 +18,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculateBtn = document.getElementById('calculateBtn');
     calculateBtn.addEventListener('click', calculate);
 
+    // Toggle conversion section
+    const toggleConversion = document.getElementById('toggleConversion');
+    const conversionContent = document.getElementById('conversionContent');
+    toggleConversion.addEventListener('click', () => {
+        if (conversionContent.classList.contains('hidden')) {
+            conversionContent.classList.remove('hidden');
+            toggleConversion.innerHTML = 'Unit Conversion ▲';
+        } else {
+            conversionContent.classList.add('hidden');
+            toggleConversion.innerHTML = 'Unit Conversion ▼';
+        }
+    });
+
+    const convertBtn = document.getElementById('convertBtn');
+    convertBtn.addEventListener('click', convertUnits);
+
     function calculate() {
         // Default values for advanced settings if not provided
         const defaultSettings = {
             unstretchedLength: 10,  // Default 10m cord
             jumperHeight: 1.7,      // Default average human height
-            strength: 100,           // Default cord strength
-            buffer: 1,               // Default 1m buffer
-            noGoZone: 1              // Default 1m no-go zone
+            strength: 100,          // Default cord strength
+            buffer: 1,              // Default 1m buffer
+            noGoZone: 1             // Default 1m no-go zone
         };
 
         // Gather input values
@@ -89,6 +105,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('results').scrollIntoView({ 
             behavior: 'smooth' 
         });
+    }
+
+    // Unit conversion function
+    function convertUnits() {
+        const convertFrom = document.getElementById('convertFrom').value;
+        const convertTo = document.getElementById('convertTo').value;
+        let value = parseFloat(document.getElementById('convertValue').value);
+
+        if (convertFrom === 'kg' && convertTo === 'lbs') {
+            value *= 2.20462;
+        } else if (convertFrom === 'lbs' && convertTo === 'kg') {
+            value /= 2.20462;
+        } else if (convertFrom === 'm' && convertTo === 'ft') {
+            value *= 3.28084;
+        } else if (convertFrom === 'ft' && convertTo === 'm') {
+            value /= 3.28084;
+        }
+
+        alert(`Converted Value: ${value.toFixed(2)}`);
     }
 
     // Rest of the functions remain the same as in previous implementation
