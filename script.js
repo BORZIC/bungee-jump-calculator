@@ -7,10 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsModal = document.getElementById('settingsModal');
     const closeSettings = document.getElementById('closeSettings');
 
+    // Open the settings modal when clicking the settings button
     settingsToggle.addEventListener('click', () => {
         settingsModal.classList.toggle('hidden');
+        loadSettings();  // Load the saved settings when modal is opened
     });
 
+    // Close the settings modal when clicking the close button
     closeSettings.addEventListener('click', () => {
         settingsModal.classList.add('hidden');
     });
@@ -18,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculateBtn = document.getElementById('calculateBtn');
     calculateBtn.addEventListener('click', calculate);
 
-    // Toggle conversion section
+    // Toggle conversion section visibility
     const toggleConversion = document.getElementById('toggleConversion');
     const conversionContent = document.getElementById('conversionContent');
     toggleConversion.addEventListener('click', () => {
@@ -33,6 +36,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const convertBtn = document.getElementById('convertBtn');
     convertBtn.addEventListener('click', convertUnits);
+
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    saveSettingsBtn.addEventListener('click', saveSettings);
+
+    // Save the settings to localStorage
+    function saveSettings() {
+        const settings = {
+            unstretchedLength: parseFloat(document.getElementById('unstretchedLength').value),
+            startingHeight: parseFloat(document.getElementById('startingHeight').value),
+            strength: parseFloat(document.getElementById('strength').value),
+            buffer: parseFloat(document.getElementById('buffer').value),
+            noGoZone: parseFloat(document.getElementById('noGoZone').value),
+        };
+        localStorage.setItem('bungeeSettings', JSON.stringify(settings));
+        alert('Settings Saved');
+    }
+
+    // Load settings from localStorage if available
+    function loadSettings() {
+        const savedSettings = JSON.parse(localStorage.getItem('bungeeSettings'));
+        if (savedSettings) {
+            document.getElementById('unstretchedLength').value = savedSettings.unstretchedLength || '';
+            document.getElementById('startingHeight').value = savedSettings.startingHeight || '';
+            document.getElementById('strength').value = savedSettings.strength || '';
+            document.getElementById('buffer').value = savedSettings.buffer || '';
+            document.getElementById('noGoZone').value = savedSettings.noGoZone || '';
+        }
+    }
 
     function calculate() {
         // Default values for advanced settings if not provided
@@ -126,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Converted Value: ${value.toFixed(2)}`);
     }
 
-    // Rest of the functions remain the same as in previous implementation
+    // Function to update the results display
     function updateResultsDisplay(results) {
         const resultsDiv = document.getElementById('results');
         resultsDiv.innerHTML = `
@@ -149,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsDiv.classList.add('animate-fade-in');
     }
 
-    // Chart creation function remains the same
+    // Function to create the energy chart
     function createEnergyChart(gravitationalEnergies, kineticEnergies, elasticEnergies) {
         const ctx = document.getElementById('chart').getContext('2d');
         
@@ -185,27 +216,9 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                    },
-                    title: {
-                        display: true,
-                        text: 'Energy Distribution at Different Positions',
-                        font: {
-                            size: 16
-                        }
-                    }
-                },
                 scales: {
-                    x: {
-                        stacked: true
-                    },
-                    y: {
-                        beginAtZero: true,
-                        stacked: true
-                    }
+                    x: { stacked: true },
+                    y: { stacked: true }
                 }
             }
         });
